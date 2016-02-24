@@ -1,0 +1,41 @@
+{% extends "polls/base.html" %}
+
+{% block topnavtitle %}
+  <ul class="title-area">
+    <li class="name">
+	<h1><a id='nav-title' href="{% url 'polls:index' %}"></a></h1>
+    </li>
+    <!-- Collapsible Button on small screens: remove the .menu-icon class to get rid of icon. 
+    Remove the "Menu" text if you only want to show the icon -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+{% endblock %}
+{% block topnavsection %}
+  <section class="top-bar-section">
+    <ul class="left">
+      {% block topnavlist %} {% endblock %}
+    </ul>
+    <ul class="right"></ul>
+  </section>
+{% endblock %}
+
+{% block listTools %}
+    <div id="explain-page"></div>
+
+    <!-- New entry top button -->
+    <div id="b-top" > </div>
+
+    <div id="list-panels"></div>
+    
+    <div class="row" style="margin-left: 0"><p></p></div>
+
+    <!-- New entry control buttons -->
+    <div id="pnl-control" > </div>
+
+    <div id="explain-rot"></div>
+
+    <!-- New entry dialog -->
+    <div id="d-add"></div>
+{% endblock %}
+
+

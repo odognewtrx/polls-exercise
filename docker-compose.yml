@@ -1,0 +1,58 @@
+# Docker-compose.yml file for 
+
+# Nginx
+nginx_4:
+    image: nginx
+    volumes_from:
+        - sitevol_4
+    volumes:
+        - ./nginx.conf.template:/etc/nginx/nginx.conf.template
+        - ./nginx.conf.proxyhead:/etc/nginx/nginx.conf.proxyhead
+    links:
+        - django_4
+    env_file:
+        - ./web.env
+    environment:
+        # set to django service name to generate nginx.conf
+        - DJANGO_HOST=django_4
+    ports:
+        - "8007:80"
+    command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
+# This defines a service for the Django app
+django_4:
+    build: ./django
+    env_file:
+        - ./web.env
+        - ./sql.env
+    expose:
+        - "8000"
+    links:
+        - mysql_4
+    volumes_from:
+        - sitevol_4
+    volumes:
+        - ./django/mysite:/mysite
+
+# Data volume for website
+sitevol_4:
+    image: busybox
+    command: "true"
+    volumes:
+        - /var/lib/web
+
+# This defines a service for the mysql database (env_file does not work with image:)
+mysql_4:
+    image: mysql
+    environment:
+        - MYSQL_ROOT_PASSWORD=123
+    volumes_from:
+        - dbvol_4
+
+# Data volume for database
+dbvol_4:
+    image: busybox
+    command: "true"
+    volumes:
+        - /var/lib/mysql
+

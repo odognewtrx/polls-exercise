@@ -1,0 +1,106 @@
+{% load i18n admin_static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}">
+
+<head>
+  <title id='page-title'>{% block title %}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/css/foundation.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css">
+  <link rel="stylesheet" type="text/css" href="{% static "polls/css/base.css" %}">
+  {% block stylelink %}{% endblock %}
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  {% block functsrc %}{% endblock %}
+
+</head>
+{% load i18n %}
+
+<body {% block bodyattrib %}{% endblock %} class="{% block bodyclass %}{% endblock %}" data-admin-utc-offset="{% now "Z" %}" >
+
+<div id="datstor" style="display: none;"></div>
+
+{% block scripthelpers %}
+<p id="pagename" style="display: none;">{{page_name}}</p>
+{% endblock %}
+
+<div class="fixed" >
+      <nav class="top-bar fixed" data-topbar>
+        {% block topnavtitle %} {% endblock %}
+        {% block topnavsection %} {% endblock %}
+      </nav>
+</div>
+
+<!-- Container -->
+<div id="container" >
+
+  <!-- Header -->
+  <div id="page-header"></div>
+
+  {% block usertools %}
+  {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+  {% block listTools %}
+  {% endblock %}
+  {% endblock %}
+
+  <div class="row" ><div class="medium-12 columns" ><p></p></div></div>
+  <div class="row" ><div class="medium-12 columns" ><p></p></div></div>
+
+</div>
+<!-- END Container -->
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+<script src="{% static "polls/js/jquery.cookie.js" %}"></script>
+
+
+{% block functdefs %}
+<script src="{% static "polls/js/pagesetup-utils.js" %}"></script>
+<script src="{% static "polls/js/ajax-utils.js" %}"></script>
+<script src="{% static "polls/js/set-promises.js" %}"></script>
+<script src="{% static "polls/js/url-utils.js" %}"></script>
+<script src="{% static "polls/js/foundation-utils.js" %}"></script>
+<script src="{% static "polls/js/forms-utils.js" %}"></script>
+{% endblock %}
+
+{% block pagesetup %}{% endblock %}
+
+<script>
+
+<!-- Initialize Foundation JS -->
+$(document).ready(function() {
+    $(document).foundation();
+});
+
+(function ( $ ) {
+ 
+    $.fn.bClick = function( options ) {
+ 
+        // default options.
+        var settings = $.extend({
+            name: "generic-click-plugin"    // should override this
+        }, options );
+ 
+	return this.off("click." + settings.name)
+		    .on("click." + settings.name, null, settings, doClick);
+ 
+    };
+
+    $.fn.jSubmit = function( options ) {
+
+        // default options.
+        var settings = $.extend({
+            // These are the defaults.
+        }, options );
+ 
+	return this.off("submit.form-jsubmit")
+		   .on("submit.form-jsubmit", null, settings, jsonSubmit);
+ 
+    };
+
+}( jQuery ));
+
+</script>
+
+</body>
+</html>

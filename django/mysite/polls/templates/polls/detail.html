@@ -1,0 +1,23 @@
+{% extends "polls/base-site.html" %}
+{% load i18n staticfiles %}
+
+{% block scripthelpers %}
+  {{ block.super }}
+  <div id="questionnum" style="display: none;">{{ question_id }}</div>
+{% endblock %}
+
+{% block topnavlist %}
+    <li               ><a id="nav-index"   href="{% url 'polls:index' %}"></a></li>
+    <li class="active"><a id="nav-detail"  href="#"></a></li>
+    {% if answers_count %}
+        <li           ><a id="nav-results" href="{% url 'polls:results' question_id %}"></a></li>
+    {% endif %}
+{% endblock %}
+
+{% block pagesetup %}
+{{ block.super }}
+
+<script src="{% static "polls/js/detail.js" %}"></script>
+
+{% endblock %}
+

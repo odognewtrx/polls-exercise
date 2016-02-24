@@ -1,0 +1,15 @@
+{% extends "polls/base-site.html" %}
+{% load i18n staticfiles %}
+
+{% block topnavlist %}
+    <li class="active"><a id="nav-index" href="{% url 'polls:index' %}"></a></li>
+{% endblock %}
+
+{% block pagesetup %}
+  {{ block.super }}
+
+<!-- Fill out the page -->
+<script src="{% static "polls/js/index.js" %}"></script>
+
+{% endblock %}
+

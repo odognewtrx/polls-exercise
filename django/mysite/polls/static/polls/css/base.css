@@ -1,0 +1,36 @@
+
+body {
+    background-image: url("/static/polls/images/DSC02654-bgnd-small.jpg");
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+@media only screen and (min-width: 600px) {
+    body { 
+        background-image: url("/static/polls/images/DSC02654-bgnd.jpg"); 
+    }
+}
+
+div.dfltpanel {
+    background-color: rgba(179, 217, 255, 0.3);
+    
+}
+
+div.dfltpanel, .formpanel, .button, .tablebut {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* center tables */
+table {
+	margin: 0 auto;
+}
+
+.tablebut {
+   text-align: center; 
+}
+
