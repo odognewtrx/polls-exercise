@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404, render
 
 # Create your views here.
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 from django.template import RequestContext
@@ -126,6 +126,7 @@ class IndexView(TemplateView):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['question_count'] = Question.objects.count()
         context['page_name'] = "index"
+        self.request.session.set_test_cookie()
         return context
 
 class DetailView(TemplateView):
@@ -138,6 +139,7 @@ class DetailView(TemplateView):
         context['answers_count'] = question.choice_set.count()
         context['question_id'] = qid
         context['page_name'] = "detail"
+        self.request.session.set_test_cookie()
         return context
 
 class ResultsView(TemplateView):
@@ -155,24 +157,43 @@ class ResultsView(TemplateView):
 class JSONvote(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
+        if not self.request.session.test_cookie_worked():
+            return JsonResponse({ 'accepted': 'False', 'reason': 'Cookies must be enabled to Vote.'})
+
+        sess = self.request.session
+        sess.delete_test_cookie()
+
         sz = VoteSerializer(data=self.request.data)
         if sz.is_valid():
             vote = VoteSerializer().create( sz.validated_data )
             qid = vote.question_id
             aid = vote.answer_id
+            tally = 'tally_' + str(qid) + '_' + str(aid)
+
+            if not tally in sess: sess[tally] = '0'
 
             question = get_object_or_404(Question, pk=qid)
+            i_tally = int(sess[tally])
+            resp = {}
+            resp['timesVoted'] = sess[tally]
+
             try:
                 selected_choice = question.choice_set.get(pk=aid)
             except (KeyError, Choice.DoesNotExist):
-                # Redisplay the question voting form.
-                return render(request, 'polls/detail.html', {
-                    'question': question,
-                    'error_message': "You didn't select a choice.",
-                })
+                # Should not be possible to get here
+                resp['accepted'] = 'False'
+                resp['reason'] = 'DoesNotExist'
+                return JsonResponse(resp)
             else:
-                selected_choice.votes += 1
-                selected_choice.save()
-                return Response()
+                if i_tally < 3:
+                    sess[tally] = str( i_tally + 1)
+                    selected_choice.votes += 1
+                    selected_choice.save()
+                    resp['accepted'] = 'True'
+                    return JsonResponse(resp)
+                else:
+                    resp['accepted'] = 'False'
+                    resp['reason'] = 'ExceedsMaxVotes'
+                    return JsonResponse(resp)
 
 

@@ -31,7 +31,7 @@ class Question(models.Model):
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
 
     def save(self, *args, **kwargs):
-        self.question_text = self.question_text.strip().rstrip('.').rstrip('?') +'?'
+        self.question_text = self.question_text.strip().rstrip('.').rstrip('?') + '?'
         super(Question, self).save(*args, **kwargs)
 
 class Choice(models.Model):
@@ -43,7 +43,7 @@ class Choice(models.Model):
         return self.choice_text
 
     def save(self, *args, **kwargs):
-        self.choice_text = self.choice_text.strip().rstrip('.') +'.'
+        self.choice_text = self.choice_text.strip().rstrip('.') + '.'
         super(Choice, self).save(*args, **kwargs)
 
 # vote submission action object

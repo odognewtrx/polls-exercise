@@ -7,28 +7,30 @@ function doClick(e) {
 	alert( e.data.alert_txt );
     }
 
-    var data;
     switch(e.data.name) {
 	case "vote-plugin":
-            data = JSON.stringify( { question_id: e.data.q_id,
-	                             answer_id: $(target).data("a_id")} );
-	    break;
-    }
-
-    if (data) {
-        // alert( data );
-        var ret = $.ajax({
-                    url: e.data.url,
-                    method: "POST",
-                    data: data,
-                    contentType: "application/json",
-                    processData: false,
-                    headers: {'Accept': 'text/html; q=1.0, */*'},
+            var data = JSON.stringify( { question_id: e.data.q_id,
+	                                 answer_id: $(target).data("a_id")} );
+            var ret = $.ajax({
+                        url: e.data.url,
+                        method: "POST",
+                        data: data,
+                        contentType: "application/json",
+                        processData: false,
+                        headers: {'Accept': 'text/html; q=1.0, */*'},
+                    });
+                ret.always(function(response, textStatus, jqXHR) {
+                        if ( textStatus == 'error' ) alert( JSON.stringify(response.statusText) );
+                        if ( response.accepted == 'False' ){
+                            alert( 'VOTE NOT ACCEPTED: ' + response.reason + '  timesVoted: ' + response.timesVoted);
+	                }
+                        // if ( response.accepted == 'True' ){
+                            // alert( 'Times have voted for this: ' + response.timesVoted );
+	                // }
+                        location.reload(true);
                 });
-            ret.always(function(data, textStatus, jqXHR) {
-                    if ( textStatus == 'error' ) alert( JSON.stringify(data.statusText) );
-                    location.reload(true);
-            });
+
+	    break;
     }
 }
 
