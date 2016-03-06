@@ -39,7 +39,7 @@ sitevol_4:
     image: busybox
     command: "true"
     volumes:
-        - /var/lib/web
+        - /var/www
 
 # This defines a service for the mysql database (env_file does not work with image:)
 mysql_4:
