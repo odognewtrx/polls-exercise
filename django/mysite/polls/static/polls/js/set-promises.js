@@ -88,57 +88,14 @@ function setPromCounts() {
         $.ajax({  url: getAnswerCountsURL(),
 		  dfd: dfd,
 		  success: function (result) {
-			       var countmap = {};
-			       for (var i in result) {
-				   var qres = result[i];
-				   countmap[qres.question_id] = qres.answer_count;
-			       }
-		               this.dfd.resolve(result, countmap);
+		               this.dfd.resolve(result, {});
 		           },
-		          error: function () {
+		  error: function () {
 		               this.dfd.resolve(result, { error: "Get failed" });
 		           }
 
 		});
 
-    }
-}
-
-promAL = null;          // Array of answer list JSON promises, key is question ID
-readyAL = null;         // promise to wait for promAL to be initialized
-
-// Answer lists for all questions (was used at first then replaced by promCount access).
-function setPromAL( pql ) {  // arg is question list promise
-    if ( readyAL == null ) {
-        var rdfd = $.Deferred();
-        readyAL = rdfd.promise();
-
-        promAL = {};
-        $.when(pql).done( function(quest_list) {
-
-	    // Load an array with promises that resolve when answer
-	    // lists are received. Add the question to the done callback.
-            for (var j in quest_list ) {
-		var quest = quest_list[j];
-		var qid = quest_list[j].id;
-		var dfd = $.Deferred();
-
-                promAL[qid] = dfd.promise();
-
-                $.ajax({  url: getAnswersURL(qid),
-			  question: quest,
-			  dfd: dfd,
-		          success: function (result) {
-		                      this.dfd.resolve(this.question, result);
-				   },
-		          error: function () {
-		                      this.dfd.resolve(this.question, []);
-				   }
-
-		       });
-            }
-	    rdfd.resolve();
-        });
     }
 }
 
