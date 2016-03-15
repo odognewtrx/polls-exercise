@@ -1,8 +1,7 @@
 
 function setupPage() {
 
-    setPromConfig();
-    $.when(promConfig).done( function(result, fields) {
+    promConfig().done( function(result, fields) {
         setTitle(fields);
         setupNav(fields);
     });

@@ -6,13 +6,11 @@
   hpanel.panel.append( $("<h1>").html( "Questions") );
   $("#page-header").append( hpanel.topdiv );
 
-  setPromQL();
-  setPromCounts();
+  dfdStep1 = $.Deferred();
+  _promStep1 = dfdStep1.promise();
+  function promStep1() { return _promStep1; }
 
-  var dfdStep1 = $.Deferred();
-  var promStep1 = dfdStep1.promise();
-
-  $.when(promQL).done( function(quest_list) {
+  promQL().done( function(quest_list) {
       if (quest_list.length > 0) {
 
           $("#explain-page").append( getExplain(1, "(Click entry to see details and vote)") );
@@ -38,8 +36,8 @@
   });
 
   // Fill in the answer summaries
-  $.when(promStep1).done( function() {
-      $.when(promCounts).done( function(result, xtra) {
+  promStep1().done( function() {
+      promCounts().done( function(result, xtra) {
           for (var key in result) {
               if ( !result.hasOwnProperty(key) ) continue;
               $("#asum-" + result[key].question_id ).html( getAnswerSummary(result[key].answer_count) );
@@ -47,7 +45,7 @@
       });
   });
 
-  $.when(promQL).done( function(quest_list) {
+  promQL().done( function(quest_list) {
 
       // Create buttons and hidden add question form
       cButAdd( { buttonText:"Add a New Question", buttonIcon:"plus", list_length: quest_list.length} );

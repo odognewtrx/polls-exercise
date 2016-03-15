@@ -1,7 +1,4 @@
 
-setPromQuest( getQuestionID() );
-setPromAnswers( promQuest );
-
 // Add modal dialog. Must be done outside of callback.
 // When panel is clicked, vote info will be attached to the modal text and
 // the button. When "Vote!" button is clicked, a handler will use data to
@@ -24,7 +21,8 @@ $("body").append(
 setupPage();
 
 
-$.when( promAnswers ).done( function(question, answer_list) {
+promQuest(getQuestionID()).done( function(question) {     // get question object using id
+  promAnswers( question.id ).done( function(answer_list) {     // get answer list using question id
       var qid = question.id;
 
       // Set header text
@@ -98,6 +96,6 @@ $.when( promAnswers ).done( function(question, answer_list) {
                               q_id: qid
                             });
 
+  });
 });
-
 
