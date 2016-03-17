@@ -48,17 +48,21 @@
 </div>
 <!-- END Container -->
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
 <script src="{% static "polls/js/jquery.cookie.js" %}"></script>
 
+{% block ajaxdefs %}
+<script src="{% static "polls/js/url-utils.js" %}"></script>
+<script src="{% static "polls/js/ajax-utils.js" %}"></script>
+<script src="{% static "polls/js/set-promises.js" %}"></script>
+{% endblock %}
+{% block ajaxpreload %}{% endblock %}
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
 
 {% block functdefs %}
 <script src="{% static "polls/js/pagesetup-utils.js" %}"></script>
-<script src="{% static "polls/js/ajax-utils.js" %}"></script>
-<script src="{% static "polls/js/set-promises.js" %}"></script>
-<script src="{% static "polls/js/url-utils.js" %}"></script>
 <script src="{% static "polls/js/foundation-utils.js" %}"></script>
 <script src="{% static "polls/js/forms-utils.js" %}"></script>
 {% endblock %}

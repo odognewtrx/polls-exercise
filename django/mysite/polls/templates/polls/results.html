@@ -27,6 +27,14 @@
 
 {% endblock %}
 
+{% block ajaxpreload %}
+{{ block.super }}
+<script>
+var pre1 = promQuest(getQuestionID());
+var pre2 = promAnswers(getQuestionID());
+</script>
+{% endblock %}
+
 {% block pagesetup %}
   {{ block.super }}
 

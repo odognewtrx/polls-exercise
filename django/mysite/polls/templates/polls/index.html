@@ -5,8 +5,15 @@
     <li class="active"><a id="nav-index" href="{% url 'polls:index' %}"></a></li>
 {% endblock %}
 
+{% block ajaxpreload %}
+{{ block.super }}
+<script>
+var pre1 = promQL();
+var pre2 = promCounts();
+</script>
+{% endblock %}
+
 {% block pagesetup %}
-  {{ block.super }}
 
 <!-- Fill out the page -->
 <script src="{% static "polls/js/index.js" %}"></script>

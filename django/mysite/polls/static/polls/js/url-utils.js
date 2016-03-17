@@ -1,4 +1,12 @@
 
+function getPageName() { return $("#pagename").text(); }
+
+function getQuestionID() {
+	var qnum = $("#questionnum");
+	if ( qnum ) { return qnum.text(); }
+	return "";
+}
+
 function getPageIndexURL() { return '/'; }
 function getPageDetailURL() {
 	var id;

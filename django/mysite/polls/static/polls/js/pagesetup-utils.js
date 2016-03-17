@@ -9,14 +9,6 @@ function setupPage() {
 
 function getCSRFToken() { return $.cookie('csrftoken'); }
 
-function getPageName() { return $("#pagename").text(); }
-
-function getQuestionID() {
-	var qnum = $("#questionnum");
-	if ( qnum ) { return qnum.text(); }
-	return "";
-}
-
 function getAnswerSummary(count) {
     var plur = "s";
 
