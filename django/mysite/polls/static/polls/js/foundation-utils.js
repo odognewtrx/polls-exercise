@@ -100,7 +100,7 @@ function getCenteredPanel() {
 
     if (w.lft > 0) {
        div.append(
-           $("<div>").addClass("medium-" + w.lft + " columns").append( $("<p>") )
+           $("<div>").addClass("medium-" + w.lft + " columns ispadding").append( $("<p>") )
        );
     }
 	       
@@ -110,7 +110,7 @@ function getCenteredPanel() {
 
     if (w.rit > 0) {
        div.append(
-           $("<div>").addClass("medium-" + w.rit + " columns").append( $("<p>") )
+           $("<div>").addClass("medium-" + w.rit + " columns ispadding").append( $("<p>") )
        );
     }
 

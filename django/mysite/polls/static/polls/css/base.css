@@ -10,9 +10,16 @@ body {
     background-size: cover;
 }
 
-@media only screen and (min-width: 600px) {
+.ispadding {
+    display: none;
+}
+
+@media only screen and (min-width: 640px) {
     body { 
         background-image: url("/static/polls/images/DSC02654-bgnd.jpg"); 
+    }
+    .ispadding {
+        display: inline;
     }
 }
 
